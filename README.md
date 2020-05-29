@@ -9,6 +9,7 @@ sudo apt install git
 git clone https://github.com/path/to/your/backup/repository.git backup
  or
 git init backup
+git remote add origin https://github.com/path/to/your/backup/repository.git
 
 cd backup
 
