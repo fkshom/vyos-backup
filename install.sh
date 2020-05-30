@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# set apt  sources.list
+#=================================
 CODENAME=`cat /etc/os-release  | grep VERSION_CODENAME | cut -d= -f2`
 
 mkdir -p /config/user-data/etc/apt
@@ -13,3 +15,9 @@ sed -i -e '/#CUSTOM01/d' /config/scripts/vyos-postconfig-bootup.script
 cat <<EOF >> /config/scripts/vyos-postconfig-bootup.script 
 ln -sf /config/user-data/etc/apt/sources.list /etc/apt/sources.list  #CUSTOM01
 EOF
+
+# install backup_conifig.sh
+#=================================
+curl https://raw.githubusercontent.com/fkshom/vyos-backup/master/backup_config.sh > /config/user-data/backup_config.sh
+chmod a+x /config/user-data/backup_config.sh
+ln -sf /config/user-data/backup_config.sh /usr/local/bin/backup_config.sh
