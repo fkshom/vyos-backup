@@ -19,6 +19,7 @@ EOF
 # install backup_conifig.sh
 #=================================
 INSTALLDIR=/config/vyos-config-backup
+mkdir $INSTALLDIR
 
 curl https://raw.githubusercontent.com/fkshom/vyos-config-backup/master/backup_config.sh > $INSTALLDIR/backup_config.sh
 chmod a+x $INSTALLDIR/backup_config.sh
