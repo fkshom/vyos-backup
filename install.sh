@@ -16,13 +16,18 @@ cat <<EOF >> /config/scripts/vyos-postconfig-bootup.script
 ln -sf /config/user-data/etc/apt/sources.list /etc/apt/sources.list  #CUSTOM01
 EOF
 
+# install git
+#=================================
+sudo apt install git
+
 # install backup_conifig.sh
 #=================================
-INSTALLDIR=/config/vyos-config-backup
+INSTALLDIR=/config/.vyos-config-backup
 
 curl https://raw.githubusercontent.com/fkshom/vyos-config-backup/master/backup_config.sh > $INSTALLDIR/backup_config.sh
 chmod a+x $INSTALLDIR/backup_config.sh
 ln -sf $INSTALLDIR/backup_config.sh /usr/local/bin/backup_config.sh
 
-echo "installed backup_config.sh on /usr/local/bin/backup_config.sh"
+echo "installdir is $INSTALLDIR"
+echo "linked backup_config.sh on /usr/local/bin/backup_config.sh"
 
