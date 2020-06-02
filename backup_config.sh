@@ -19,18 +19,25 @@ done
 #Environment
 SCRIPTPATH=$(readlink -f $0)
 SCRIPTDIR=$(cd $(dirname $SCRIPTPATH); pwd)
+SRCDIR=/config
 
 source $SCRIPTDIR/config
-REPOSITORYDIR=-/home/vyos/backup
-HOSTNAME=-`hostname`
-GIT_USERNAME=-vyos
-GIT_USEREMAIL=-vyos@example.com
+REPOSITORYDIR=${REPOSITORYDIR:-/config/.backup}
+HOSTNAME=${HOSTNAME:-`hostname`}
+GIT_USERNAME=${GIT_USERNAME:-vyos}
+GIT_USEREMAIL=${GIT_USEREMAIL:-vyos@example.com}
 
 now=`date "+%Y/%m/%d %H:%M:%S"`
 GITOPT="-c user.name='$GIT_USERNAME' -c user.email='GIT_USEREMAIL'"
 
 #Backup Git
+mkdir -p $REPOSITORYDIR
 cd $REPOSITORYDIR
+
+if ! git rev-parse --git-dir; then
+  git init
+  git $GITOPT commit --allow-empty -m "initial blank commit"
+fi
 
 if git show-ref --quiet refs/remotes/origin/$HOSTNAME; then
   git checkout $HOSTNAME
@@ -38,7 +45,7 @@ else
   git checkout -B $HOSTNAME
 fi
 
-rsync -a --delete --exclude=archive/ --exclude=vyos-migrate.log --exclude=vyos-config-backup $SRCDIR/ $REPOSITORYDIR/config/
+rsync -a --delete --exclude=$REPOSITORYDIR --exclude=$SCRIPTDIR --exclude=archive/ --exclude=vyos-migrate.log $SRCDIR $REPOSITORYDIR/config
 
 git add .
 git $GITOPT commit -m "$HOSTNAME backup config $now"

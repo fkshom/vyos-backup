@@ -1,5 +1,5 @@
 # repository directory path
-REPOSITORYDIR=/home/vyos/backup
+REPOSITORYDIR=/config/.backup
 
 # hostname which is used for branchname and commit message
 HOSTNAME=`hostname`
