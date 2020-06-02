@@ -12,12 +12,17 @@ deb http://security.debian.org/ ${CODENAME}/updates main
 EOF
 
 sed -i -e '/#CUSTOM01/d' /config/scripts/vyos-postconfig-bootup.script
-cat <<EOF >> /config/scripts/vyos-postconfig-bootup.script 
+cat <<EOF >> /config/scripts/vyos-postconfig-bootup.script
 ln -sf /config/user-data/etc/apt/sources.list /etc/apt/sources.list  #CUSTOM01
 EOF
 
 # install backup_conifig.sh
 #=================================
-curl https://raw.githubusercontent.com/fkshom/vyos-backup/master/backup_config.sh > /config/user-data/backup_config.sh
-chmod a+x /config/user-data/backup_config.sh
-ln -sf /config/user-data/backup_config.sh /usr/local/bin/backup_config.sh
+INSTALLDIR=/config/vyos-config-backup
+
+curl https://raw.githubusercontent.com/fkshom/vyos-config-backup/master/backup_config.sh > $INSTALLDIR/backup_config.sh
+chmod a+x $INSTALLDIR/backup_config.sh
+ln -sf $INSTALLDIR/backup_config.sh /usr/local/bin/backup_config.sh
+
+echo "installed backup_config.sh on /usr/local/bin/backup_config.sh"
+
