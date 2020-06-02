@@ -1,0 +1,11 @@
+# repository directory path
+REPOSITORYDIR=/home/vyos/backup
+
+# hostname which is used for branchname and commit message
+HOSTNAME=`hostname`
+
+# git
+GIT_USERNAME=vyos
+GIT_USEREMAIL=vyos@example.com
+
+

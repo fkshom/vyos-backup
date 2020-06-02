@@ -17,15 +17,20 @@ done
 #source /opt/vyatta/etc/functions/script-template
 
 #Environment
-SCRIPTDIR=$(cd $(dirname $0); pwd)
-SRCDIR=/config
-DSTDIR=/home/vyos/backup
-HOSTNAME=`hostname`
+SCRIPTPATH=$(readlink -f $0)
+SCRIPTDIR=$(cd $(dirname $SCRIPTPATH); pwd)
+
+source $SCRIPTDIR/config
+REPOSITORYDIR=-/home/vyos/backup
+HOSTNAME=-`hostname`
+GIT_USERNAME=-vyos
+GIT_USEREMAIL=-vyos@example.com
+
 now=`date "+%Y/%m/%d %H:%M:%S"`
-GITOPT="-c user.name='vyos' -c user.email='vyos@example.com'"
+GITOPT="-c user.name='$GIT_USERNAME' -c user.email='GIT_USEREMAIL'"
 
 #Backup Git
-cd $DSTDIR
+cd $REPOSITORYDIR
 
 if git show-ref --quiet refs/remotes/origin/$HOSTNAME; then
   git checkout $HOSTNAME
@@ -33,7 +38,7 @@ else
   git checkout -B $HOSTNAME
 fi
 
-rsync -a --delete --exclude=archive/ --exclude=vyos-migrate.log --exclude=vyos-config-backup $SRCDIR/ $DSTDIR/config/
+rsync -a --delete --exclude=archive/ --exclude=vyos-migrate.log --exclude=vyos-config-backup $SRCDIR/ $REPOSITORYDIR/config/
 
 git add .
 git $GITOPT commit -m "$HOSTNAME backup config $now"
