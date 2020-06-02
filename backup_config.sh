@@ -19,7 +19,7 @@ done
 #Environment
 SCRIPTDIR=$(cd $(dirname $0); pwd)
 SRCDIR=/config
-DSTDIR=./
+DSTDIR=/home/vyos/backup
 HOSTNAME=`hostname`
 now=`date "+%Y/%m/%d %H:%M:%S"`
 GITOPT="-c user.name='vyos' -c user.email='vyos@example.com'"
@@ -27,13 +27,13 @@ GITOPT="-c user.name='vyos' -c user.email='vyos@example.com'"
 #Backup Git
 cd $DSTDIR
 
-if git show-ref --quiet refs/remote/origin/$HOSTNAME; then
+if git show-ref --quiet refs/remotes/origin/$HOSTNAME; then
   git checkout $HOSTNAME
 else
   git checkout -B $HOSTNAME
 fi
 
-rsync -a --delete --exclude=archive/ --exclude=vyos-migrate.log $SRCDIR/ $DSTDIR/config/
+rsync -a --delete --exclude=archive/ --exclude=vyos-migrate.log --exclude=vyos-config-backup $SRCDIR/ $DSTDIR/config/
 
 git add .
 git $GITOPT commit -m "$HOSTNAME backup config $now"
