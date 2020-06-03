@@ -4,8 +4,12 @@ REPOSITORYDIR=/config/.backup
 # hostname which is used for branchname and commit message
 HOSTNAME=`hostname`
 
-# git
+# git config
 GIT_USERNAME=vyos
 GIT_USEREMAIL=vyos@example.com
 
+# store style (DIR or BRANCH)
+STORE_STYLE=DIR
 
+# branch name if store style is DIR
+BRANCH_NAME=master
