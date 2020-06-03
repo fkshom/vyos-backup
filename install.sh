@@ -27,7 +27,7 @@ INSTALLDIR=/config/.vyos-config-backup
 #mkdir $INSTALLDIR
 #curl https://raw.githubusercontent.com/fkshom/vyos-config-backup/master/backup_config.sh > $INSTALLDIR/backup_config.sh
 if [ -d "$INSTALLDIR/.git" ]; then
-  git -C $INSTALLPATH pull
+  git -C $INSTALLDIR pull
 else
   git clone https://github.com/fkshom/vyos-config-backup.git $INSTALLDIR
 fi
