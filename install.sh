@@ -23,9 +23,15 @@ sudo apt install git
 # install backup_conifig.sh
 #=================================
 INSTALLDIR=/config/.vyos-config-backup
-mkdir $INSTALLDIR
 
-curl https://raw.githubusercontent.com/fkshom/vyos-config-backup/master/backup_config.sh > $INSTALLDIR/backup_config.sh
+#mkdir $INSTALLDIR
+#curl https://raw.githubusercontent.com/fkshom/vyos-config-backup/master/backup_config.sh > $INSTALLDIR/backup_config.sh
+if [ -d "$INSTALLDIR/.git" ]; then
+  git -C $INSTALLPATH pull
+else
+  git clone https://github.com/fkshom/vyos-config-backup.git $INSTALLDIR
+fi
+
 chmod a+x $INSTALLDIR/backup_config.sh
 ln -sf $INSTALLDIR/backup_config.sh /usr/local/bin/backup_config.sh
 
